@@ -6,6 +6,9 @@ use tokio::{
     time::{self, Duration},
 };
 
+const BUFFER_SIZE: usize = 8 * 1024;
+
+
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = env::args().collect();
@@ -32,6 +35,8 @@ async fn main() {
                 .write_all(raw_request.as_str().as_bytes())
                 .await
                 .unwrap();
+
+            connection.shutdown().await.unwrap();
         });
     }
 }

@@ -17,10 +17,14 @@ const { spawn } = require("child_process");
     const url = new Url(opts.url);
     const { method, user_agent } = opts;
 
-    let args = [method, url.pathname, user_agent, url.hostname, url.hostname + ":443"];
+    let args = [method, url.pathname, `"${user_agent}"`, url.hostname, url.hostname + ":443"];
     console.log(args);
 
     spawn("../tool/target/debug/tool", args);
+  });
+
+  socket.on("exit", () => {
+    spawn("killall", ["tool"]);
   });
 
   // EXIT HANDLERS
